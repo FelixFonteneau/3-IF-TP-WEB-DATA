@@ -1,0 +1,117 @@
+Binome B3245
+Fonteneau Felix - 04019911 
+Ferro Quentin - 04014947
+
+Première partie : XML, DTD, XPath, XSLT 
+
+Etape 1 : Exploration de l'instance [XPath]
+
+1 - Donnez les expressions XPath pour sélectionner les éléments suivants:
+
+    1 - toutes les capitales :
+    	expression : //country/capital
+    	result : 
+    		Node	Value
+    		capital	Vienna
+    		capital Baku
+    		capital Bujumbura
+ 	 
+    2 - les noms officiels des pays :
+    	expression : //country/name/official
+    	result : 
+    		Node		Value
+    		official	Republic of Austria
+    		official 	Republic of Azerbaijan
+    		official 	Republic of Burundi
+    		
+    3 - la superficie de chaque pays :
+        expression :  //country/@area
+    	result : 
+    		Node		Value
+    		area		180
+    		area	 	652230
+    		area	 	1246700
+    		
+    4 - les éléments ayant exactement un attribut :
+        expression :   /countries/*[count(@*)=1]
+    	result : 
+    		Node		Value
+    		country		
+    		country 	
+    		country  	  
+    		 
+    5 - les noms officiels des pays exprimés français, pour ceux qui en ont :
+    	expression :    //country/name/native_name[@lang="fra"]/official
+    	result : 
+    		Node		Value
+    		official	Territoire des Terres australes et antarctiques françaises	
+    		official 	République du Burundi
+    		official	Royaume de Belgique
+    		  	  
+    6 - les deuxièmes noms natifs officiels des pays :
+        expression :    //country/name/native_name[2]/official
+    	result : 
+    		Node		Value
+    		official	Aruba	
+    		official 	
+    		official  	Republica Argentina
+    		
+    7 - la somme des superficies (area) des pays d'Europe :
+        expression :  sum(//country/@area)
+    	result = 1.50008407965999997E8
+ 	
+    		
+    8 - les pays qui n'ont pas de nom natif :
+        expression :   //country/name[count(native_name)=0]/official
+    	result : 
+    		Node		Value
+    		official	Antarctica
+    		
+    9 - les pays dont la superficie est inférieure à 100 km² :
+        expression :   //country[@area<180]/name/common
+    	result : 
+    		Node		Value
+    		common		Anguilla		
+    		common		Saint Barthélemy
+    		common		Bermuda		
+    		 
+    10 - les noms officiels des pays ayant plus de 7 voisins (neighbour) :
+        expression :   //country/borders[count(neighbour)>7]/../name/common
+    	result : 
+    		Node		Value
+    		common		Austria	
+    		common 		Brazil
+    		common  	China
+    		
+    11 - la position de la France dans le document XML :
+        expression : count(//country/name [common = "France"]/../preceding-sibling::*)+1
+    	result : 76.0
+    		
+    12 - les noms officiels des royaumes (nom officiel contient "Kingdom") :
+        expression :   //country/name[contains(official,"Kingdom")]/official
+    	result : 
+    		Node		Value
+    		official	Kingdom of Belgium	
+    		official 	Kingdom of Barhain
+    		official  	Kingdom of Bhutan
+    		
+    13 - les langues des noms natifs des pays sans doublons :
+        expression :   //country/name/native_name/@lang[not(preceding::country/name/native_name/@lang/. = . )]
+    	result : 
+    		Node		Value
+    		lang		nld	
+    		lang		pap
+    		lang		prs
+    		
+    		
+Etape 2  : Mise à jour de l'instance [XML, DTD] 
+	1 - erreurs du dtd : 
+		- Il ne doit pas avoir de fils area dans country ni de node area
+		- Dans le noeud Country, il n'y a pas forcement de border, donc on met un ? à la place de *
+		- Dans le noeud Country, il n'y a pas de fils infoRegion mais il doit y avoir un fils infosContinent
+		- Il n'y a pas de noeud neighbourers mais neighbour
+		- Dans le noeud Country, il faut tld* non tld+ car un country peut avoir 0 ou plusieurs tld
+		- Un pays ne peut avoir qu'une seul fois coordinates (ou aucune), on met donc coordinates? au lieu de *
+		- Language n'apparait tout le temps qu'une seule fois, on peut ne pas mettre les occurences
+		
+		Le document est enfin correct !
