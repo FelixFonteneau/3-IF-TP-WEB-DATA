@@ -18,18 +18,21 @@
 	<body style="background-color:white;">
 		   <h1>Les pays du monde</h1>
       		Mise en forme par : Quentin Ferro, Fonteneau Felix (B3245)
-        
+
       		<xsl:apply-templates select = "//metadonnees"/>
-        
-            <xsl:for-each select="//country/infosContinent/continent[not(preceding::country/infosContinent/continent/. = . )]">
-                
+
+          <!--  <xsl:for-each select="//country/infosContinent/continent[not(preceding::country/infosContinent/continent/. = . )]">
+
                 <xsl:value-of select = "."/>
                 <xsl:apply-templates name = "//country">
                     <xsl:with-param name = "conti" select = "." />
                 </xsl:apply-templates>
-        
-            </xsl:for-each>
-        
+
+            </xsl:for-each> -->
+					<xsl:apply-templates select="//infosContinent[not(preceding::continent = continent)]/continent"/>
+
+				<!--<xsl:apply-templates select = "//country"/>
+			-->
 	</body>
 	</html>
 	</xsl:template>
@@ -46,12 +49,35 @@
 	<xsl:variable name= "codePays" select="codes/cca3"/>
 
 
+<xsl:template match="continent">
+	<xsl:variable name="Continent" select ="."/>
+	<xsl:if test=". != '' ">
+		<h3>Pays du continent :   <xsl:value-of select="."/> par sous-regions :</h3>
+		<xsl:apply-templates select="//infosContinent[not(preceding::subregion = subregion) and continent = $Continent ]/subregion"/>
+	</xsl:if>
+
+</xsl:template>
+
+
+<xsl:template match="subregion">
+	<h4><xsl:value-of select="."/> (27 pays) </h4>
+	<xsl:variable name="SousReg" select ="."/>
+	<table border="3" width="100%" align="center">
+         <tr>
+            <th>N</th>
+            <th>Nom</th>
+            <th>Capitale</th>
+            <th>Voisins</th>
+            <th>Coordonnes</th>
+            <th>Drapeau</th>
+         </tr>
+	<xsl:apply-templates select="//country[ infosContinent/subregion = $SousReg ]"/>
+</table>
+</xsl:template>
+
 
 	<xsl:template match="country">
-        <xsl:param name = "conti" />
-        <xsl:if test = "infosContinent/continent=$conti">
-            <table border="3" width="1024" align="center">
-            
+
             <tr>
             <td>
                 <xsl:value-of select="position()"/>
@@ -60,19 +86,18 @@
                 <span style="color:green"><xsl:value-of select="name/common"/> </span> (<xsl:value-of select="name/official"/>)<br/>
                 <span style="color:brown"><xsl:value-of select="name/native_name[@lang='fra']/official"/> </span>
             </td>
-            <td>  
+            <td>
                 <xsl:value-of select="capital"/>
             </td>
             <td>
 
-                <xsl:if test="count(borders/neighbour) = 0">
+                <xsl:if test="count(borders/neighbour) = 0 and landlocked='false'">
                     île
                 </xsl:if>
-                <xsl:variable name= "codePays" select="codes/cca3"/>
-                <xsl:for-each select="//country/borders/neighbour">
-                    <xsl:if test=". =  $codePays">
-                        <xsl:value-of select="../../name/common"/>,
-                    </xsl:if>
+                <xsl:for-each select="borders/neighbour">
+									<xsl:variable name="codePays" select="."/>
+									<xsl:value-of select="//country[codes/cca3 = $codePays]/name/common"/>
+												<xsl:if test="position() !=  last()">,</xsl:if>
                 </xsl:for-each>
 
             </td>
@@ -86,12 +111,10 @@
 				http://www.geonames.org/flags/x/<xsl:value-of select="translate($codePays,$uppercase,$lowercase)"/>.gif
                 </xsl:variable>
                 <img src="{$url}" alt="" height="40" width="60"/>
-                
+
             </td>
             </tr>
-            </table>
-        </xsl:if>
-        
+
 	</xsl:template>
-    
+
 </xsl:stylesheet>
