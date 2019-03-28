@@ -138,16 +138,16 @@ function Bouton6_ajaxCherchePays(xmlDocumentUrl, xslDocumentUrl, nomPays) {
     
     // Chargement du fichier XSL à l'aide de XMLHttpRequest synchrone 
     var xslDocument = chargerHttpXML(xslDocumentUrl);
-
+    
     // Importation du .xsl
     xsltProcessor.importStylesheet(xslDocument);
-
+    
     // Chargement du fichier XML à l'aide de XMLHttpRequest synchrone 
     var xmlDocument = chargerHttpXML(xmlDocumentUrl);
 
-    // Création du document XML transformé par le XSL
+    // Création du document XML transformé par le XSL et set du paramètre
+    //xsltProcessor.setParameter(null, 'NomPays', window.getElementById('myText2').value);
     var newXmlDocument = xsltProcessor.transformToDocument(xmlDocument);
-    xsltProcessor.setParameter(null, 'NomPays', nomPays);
     
     var elementHtmlARemplacer = window.document.getElementById('textPays');
     
