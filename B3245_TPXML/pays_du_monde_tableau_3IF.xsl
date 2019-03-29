@@ -29,6 +29,24 @@
                 </xsl:apply-templates>
 
             </xsl:for-each> -->
+
+
+ 					<hr/>
+ 					<p>Pays avec 6 voisins :
+						<xsl:for-each select="//borders[count(neighbour) = 6]">
+							<xsl:value-of select="../name/common"/>
+							<xsl:if test="position() !=  last()">, </xsl:if>
+						</xsl:for-each>
+ 					</p>Pays ayant le plus court nom :
+					<common>
+						<xsl:for-each select="//name">
+							<xsl:sort select="string-length(common)" data-type="number" order="ascending"/>
+							<xsl:if test="position()=1">
+								<xsl:copy-of select="common"/>
+							</xsl:if>
+						</xsl:for-each>
+					</common>
+					<hr/>
 					<xsl:apply-templates select="//infosContinent[not(preceding::continent = continent)]/continent"/>
 
 				<!--<xsl:apply-templates select = "//country"/>
