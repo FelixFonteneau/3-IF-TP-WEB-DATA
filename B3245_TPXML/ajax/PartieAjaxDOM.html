@@ -1,42 +1,77 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
-    
+
 <head>
-    
+
     <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
     <title>TP 3IF Ajax</title>
-    <meta name="author" content="Elöd EGYED-ZSIGMOND">
+    <meta name="author" content="Elï¿½d EGYED-ZSIGMOND">
 
     <script type="text/javascript" src="partieJavascript.js"></script>
-    
+
 </head>
 
 <body>
-    
-    <p>Fichier à modifier/compélter</p>
+
+    <p>Fichier ï¿½ modifier/compï¿½lter</p>
     <p>
-        <input name="button" type="button" id="myButton1" onClick="setNom(document.getElementById('myText1').value);" value="1. AJAX simple" />
+        <input name="button" type="button" id="myButtonA" onClick="setNom(document.getElementById('myText1').value);" value="A. AJAX simple" />
         <input name="text" type="text" id="myText1" value="Toto" />
         <br />
-        <input name="button2" type="button" id="myButton2" onClick="Bouton2_ajaxBibliographie('ajax.bib.xml','ajax.bib.xsl','ul');" value="2. AJAX avec ajax.bib.xml/ajax.bib.xsl" />
+        <input name="button2" type="button" id="myButtonB" onClick="Bouton2_ajaxBibliographie('ajax.bib.xml','ajax.bib.xsl','ul');" value="B. AJAX avec ajax.bib.xml/ajax.bib.xsl" />
         <br />
-        <input name="button2" type="button" id="myButton3" onClick="Bouton3_ajaxEmployees('Employees.xml');" value="3. AJAX avec Employees.xml" />
+        <input name="button2" type="button" id="myButtonC" onClick="Bouton3_ajaxEmployees('Employees.xml');" value="C. AJAX avec Employees.xml" />
         <br />
-        
-        <input name="buttonColorAndText" type="button" id="myButton4" onclick="setBackColor('blue'); setButtonColor('white');" value="4. Backgroud et Bouton Vers Bleu et Blanc" />
+
+        <input name="buttonColorAndText" type="button" id="myButton1" onclick="setBackColor('blue'); setButtonColor('white');" value="1. Backgroud et Bouton Vers Bleu et Blanc" />
         <br />
-        
-        <input name="buttonColorAndText" type="button" id="myButton5" onclick="setBackColor('white');" value="5. Backgroud en blanc" />
+
+        <input name="buttonColorAndText" type="button" id="myButton2" onclick="setBackColor('white');" value="2. Backgroud en blanc" />
         <br />
-        
-        <input name="cherchePays" type="button" id="myButton6" onClick="Bouton6_ajaxCherchePays('ajax.countriesTP.xml', 'ajax.cherchePays.xsl', 'body')" value="6. Chercher" />
+
+        <input name="cherchePays" type="button" id="myButton3" onClick="Bouton3_ajaxCherchePays('ajax.countriesTP.xml', 'ajax.cherchePays.xsl', 'body')" value="3. Chercher" />
         <input name="text2" type="text" id="myText2" value="Entrez un nom de pays" />
         <br />
-        
-        
+
+        <input name="affichageSVG" type="button" id="myButton4" onClick="Bouton4_ajaxExempleSVG('exemple.svg')" value="4. Afficher image" />
+        <br />
+
+        <input name="clickableSVG" type="button" id="myButton5" onClick="Bouton5_ajaxExempleSVG()" value="5. SVG Clickable" />
+        <br />
+
+        <input name="affichageCarteSVG" type="button" id="myButton6" onClick="Bouton6_ajaxCarteSVG('worldHigh.svg')" value="6. Afficher la carte du monde" />
+        <br />
+
+        <input name="clickableCarte" type="button" id="myButton7" onClick="Bouton7_ajaxCarteSVGClickable()" value="7. Carte Clickable" />
+        <br />
+
+        <input name="mouseOverCarte" type="button" id="myButton8" onClick="Bouton8_ajaxCarteSVGMouseListen()" value="8. Mouse Listener sur la Carte" />
+        <br />
     </p>
+
     <div>
         <p>Pays : <br/>
-            <span id="textePays" style="color: black; font-weight: bold;">Cette partie va être remplacé par le nom et la capitale du pays cherché </span>.</p>
+            <span id="textePays" style="color: black; font-weight: bold;">Cette partie va &ecirc;tre remplac&eacute; par le nom et la capitale du pays cherch&eacute; </span>.</p>
+    </div>
+    <div>
+        <p>SVG : <br/>
+            <span id="exempleSVG" style="color: black; font-weight: bold;">Cette partie va afficher l'image svg exemple </span><span id="titre"></span></p>
+    </div>
+    <div>
+        <p>Pays visit&eacute;s : <br/>
+            <span id="tabPays" style="color: black; font-weight: bold;">
+              <table border="3" width="600" align="center">
+                <tr>
+                   <th>Nom</th>
+                   <th>Capitale</th>
+                   <th>Drapeau</th>
+                </tr>
+                
+              </table>
+            </span></p>
+    </div>
+    <div>
+        <p>Carte du Monde : <br/>
+            <span id="carteSVG" style="color: black; font-weight: bold;">Cette partie va afficher la carte du monde en svg </span><span id="nomDuPays"></span></p>
     </div>
     <div>
         <p>Les noms sont : <br/>

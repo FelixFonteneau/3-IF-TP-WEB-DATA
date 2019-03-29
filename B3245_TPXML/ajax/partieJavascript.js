@@ -132,7 +132,7 @@ function setButtonColor(color) {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-function Bouton6_ajaxCherchePays(xmlDocumentUrl, xslDocumentUrl, nomPays) {
+function Bouton3_ajaxCherchePays(xmlDocumentUrl, xslDocumentUrl, nomPays) {
 
     var xsltProcessor = new XSLTProcessor();
 
@@ -154,4 +154,106 @@ function Bouton6_ajaxCherchePays(xmlDocumentUrl, xslDocumentUrl, nomPays) {
     var elementAInserer = newXmlDocument.getElementsByTagName(nomPays)[0];
 
     elementHtmlARemplacer.innerHTML = elementAInserer.innerHTML;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function Bouton4_ajaxExempleSVG(xmlDocumentUrl) {
+
+    var xsltProcessor = new XSLTProcessor();
+
+    // Chargement du fichier XML � l'aide de XMLHttpRequest synchrone
+    var xmlDocument = chargerHttpXML(xmlDocumentUrl);
+
+    var elementHtmlARemplacer = window.document.getElementById('exempleSVG');
+
+    texteAInserer = new XMLSerializer().serializeToString(xmlDocument);
+
+    elementHtmlARemplacer.innerHTML = texteAInserer;
+}
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function Bouton5_ajaxExempleSVG() {
+  var spanSVG = window.document.getElementById('lesFormes').getElementsByTagName('g')[0];
+  var enfantSVG = spanSVG.children;
+  for (var i = 0; i < enfantSVG.length; i++) {
+    console.log(enfantSVG[i].getAttribute("title"));
+    enfantSVG[i].addEventListener("click", modifierText);
+  }
+}
+
+
+function modifierTextExemple() {
+  var elementClicke = this;
+  var spantitre = window.document.getElementById('titre');
+  console.log("bla");
+  spantitre.innerHTML = this.getAttribute("title");
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function Bouton6_ajaxCarteSVG(xmlDocumentUrl) {
+
+  var xsltProcessor = new XSLTProcessor();
+
+  // Chargement du fichier XML � l'aide de XMLHttpRequest synchrone
+  var xmlDocument = chargerHttpXML(xmlDocumentUrl);
+
+  var elementHtmlARemplacer = window.document.getElementById('carteSVG');
+
+  texteAInserer = new XMLSerializer().serializeToString(xmlDocument);
+
+  elementHtmlARemplacer.innerHTML = texteAInserer;
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function Bouton7_ajaxCarteSVGClickable() {
+  var spanCarteSVG = window.document.getElementById('carteSVG').getElementsByTagName('svg')[0].getElementsByTagName('g')[0];
+  var enfantCarteSVG = spanCarteSVG.children;
+  for (var i = 0; i < enfantCarteSVG.length; i++) {
+    console.log(enfantCarteSVG[i].getAttribute("countryname"));
+    enfantCarteSVG[i].addEventListener("click", modifierTextCarte);
+  }
+}
+
+function modifierTextCarte() {
+  var elementClicke = this;
+  var spantitre = window.document.getElementById('nomDuPays');
+  console.log("bla");
+  spantitre.innerHTML = this.getAttribute("countryname");
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+function Bouton8_ajaxCarteSVGMouseListen() {
+  var spanCarteSVG = window.document.getElementById('carteSVG').getElementsByTagName('svg')[0].getElementsByTagName('g')[0];
+  var enfantCarteSVG = spanCarteSVG.children;
+  for (var i = 0; i < enfantCarteSVG.length; i++) {
+    enfantCarteSVG[i].addEventListener("mouseover", modifierCarteOver);
+    enfantCarteSVG[i].addEventListener("mouseleave", modifierCarteLeave);
+  }
+}
+
+function modifierCarteOver() {
+  var spantitre = window.document.getElementById('nomDuPays');
+  var tab = window.document.getElementById('tabPays');
+  console.log("bla");
+  this.style.fill = 'red';
+
+  var xsltProcessor = new XSLTProcessor();
+  var xslDocument = chargerHttpXML("ajax.bouton8.xsl");
+  xsltProcessor.importStylesheet(xslDocument);
+  var xmlDocument = chargerHttpXML("ajax.countriesTP.xml");
+  xsltProcessor.setParameter(null, 'NomPays', this.countryname);
+  var newXmlDocument = xsltProcessor.transformToDocument(xmlDocument);
+
+  var elementHtmlARemplacer = window.document.getElementById('tabPays').getElementsByTagName('table')[0];
+
+  var elementACompleter = newXmlDocument.getElementsByTagName()[0];
+
+  elementHtmlACompleter.innerHTML += elementAInserer.innerHTML;
+}
+
+function modifierCarteLeave() {
+  var spantitre = window.document.getElementById('nomDuPays');
+  console.log("bla");
+  this.style.fill = 'lightgrey';
 }
