@@ -29,7 +29,9 @@
         <br />
 
         <input name="cherchePays" type="button" id="myButton3" onClick="Bouton3_ajaxCherchePays('ajax.countriesTP.xml', 'ajax.cherchePays.xsl', 'body')" value="3. Chercher" />
-        <input name="text2" type="text" id="myText2" value="Entrez un nom de pays" />
+        <input name="text2" type="text" id="myText2" value="Entrez un nom de pays" list="dataliste"/>
+        <datalist id="dataliste">
+        </datalist>
         <br />
 
         <input name="affichageSVG" type="button" id="myButton4" onClick="Bouton4_ajaxExempleSVG('exemple.svg')" value="4. Afficher image" />
@@ -45,6 +47,9 @@
         <br />
 
         <input name="mouseOverCarte" type="button" id="myButton8" onClick="Bouton8_ajaxCarteSVGMouseListen()" value="8. Mouse Listener sur la Carte" />
+        <br />
+
+        <input name="bouton9" type="button" id="myButton9" onClick="Bouton9()" value="9. Autocompletion" />
         <br />
     </p>
 
@@ -65,7 +70,7 @@
                    <th>Capitale</th>
                    <th>Drapeau</th>
                 </tr>
-                
+
               </table>
             </span></p>
     </div>

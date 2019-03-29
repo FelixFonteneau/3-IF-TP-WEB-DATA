@@ -186,7 +186,7 @@ function Bouton5_ajaxExempleSVG() {
 function modifierTextExemple() {
   var elementClicke = this;
   var spantitre = window.document.getElementById('titre');
-  console.log("bla");
+  //console.log("bla");
   spantitre.innerHTML = this.getAttribute("title");
 }
 
@@ -218,7 +218,7 @@ function Bouton7_ajaxCarteSVGClickable() {
 function modifierTextCarte() {
   var elementClicke = this;
   var spantitre = window.document.getElementById('nomDuPays');
-  console.log("bla");
+  //console.log("bla");
   spantitre.innerHTML = this.getAttribute("countryname");
 }
 
@@ -235,25 +235,59 @@ function Bouton8_ajaxCarteSVGMouseListen() {
 function modifierCarteOver() {
   var spantitre = window.document.getElementById('nomDuPays');
   var tab = window.document.getElementById('tabPays');
-  console.log("bla");
+  //console.log("bla");
   this.style.fill = 'red';
 
-  var xsltProcessor = new XSLTProcessor();
-  var xslDocument = chargerHttpXML("ajax.bouton8.xsl");
-  xsltProcessor.importStylesheet(xslDocument);
-  var xmlDocument = chargerHttpXML("ajax.countriesTP.xml");
-  xsltProcessor.setParameter(null, 'NomPays', this.countryname);
-  var newXmlDocument = xsltProcessor.transformToDocument(xmlDocument);
+  var test = true;
+  var tabNomExistant  = window.document.getElementsByClassName('classNomPays');
 
-  var elementHtmlARemplacer = window.document.getElementById('tabPays').getElementsByTagName('table')[0];
+    var xsltProcessor = new XSLTProcessor();
+    var xslDocument = chargerHttpXML("ajax.bouton8.xsl");
+    xsltProcessor.importStylesheet(xslDocument);
+    var xmlDocument = chargerHttpXML("ajax.countriesTP.xml");
+    xsltProcessor.setParameter(null, 'NomPays', this.getAttribute('countryname'));
+    var newXmlDocument = xsltProcessor.transformToDocument(xmlDocument);
 
-  var elementACompleter = newXmlDocument.getElementsByTagName()[0];
+    var elementHtmlARemplacer = window.document.getElementById('tabPays').getElementsByTagName('table')[0];
 
-  elementHtmlACompleter.innerHTML += elementAInserer.innerHTML;
+    var elementAInserer = newXmlDocument.getElementsByTagName('body')[0];
+
+    elementHtmlARemplacer.innerHTML = elementAInserer.innerHTML;
+
 }
 
 function modifierCarteLeave() {
   var spantitre = window.document.getElementById('nomDuPays');
-  console.log("bla");
+  //console.log("bla");
   this.style.fill = 'lightgrey';
+}
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+function Bouton9(){
+  //datalist
+  var xsltProcessor = new XSLTProcessor();
+
+  // Chargement du fichier XSL � l'aide de XMLHttpRequest synchrone
+  var xslDocument = chargerHttpXML('ajax.nomPaysBouton9.xsl');
+
+  // Importation du .xsl
+  xsltProcessor.importStylesheet(xslDocument);
+
+  // Chargement du fichier XML � l'aide de XMLHttpRequest synchrone
+  var xmlDocument = chargerHttpXML('ajax.countriesTP.xml');
+
+  // Cr�ation du document XML transform� par le XSL et set du param�tre
+  var newXmlDocument = xsltProcessor.transformToDocument(xmlDocument);
+
+  var tabNomPays =  newXmlDocument.getElementsByTagName('span');
+
+
+  for (var i = 0; i < tabNomPays.length; i++) {
+    var z = document.createElement("OPTION");
+    z.setAttribute("value", tabNomPays[i].innerHTML);
+    document.getElementById("dataliste").appendChild(z);
+  }
+
+
 }
